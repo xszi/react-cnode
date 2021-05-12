@@ -50,10 +50,12 @@ const useAsync = <T>(
         } else {
             setLoading(false);
         }
+        // eslint-disable-next-line
     }, [action])
 
     useEffect(() => {
         !option.manual && run();
+        // eslint-disable-next-line
     }, [])
 
     return { 

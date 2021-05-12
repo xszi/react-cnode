@@ -18,11 +18,13 @@ interface Option extends Partial<typeof defaultOption> {
  * @param {Object} option
  * @param {Array} deps dependencies
  */
+// eslint-disable-next-line
 export default (
     action: (res: any) => Promise<any>,
     option: Option = defaultOption,
     deps: React.DependencyList = []
 ) => {
+    // 浅拷贝：将传过来的值覆盖默认的值
     option = Object.assign({}, defaultOption, option || {});
     const defaultList = option.defaultResult?.list || [];
 
@@ -37,6 +39,7 @@ export default (
             page: infoRef.current.page,
             pageSize: option.initPageSize
         })
+        // eslint-disable-next-line
     }, [action])
 
     const { loading, run } = useAsync(actionHandler, {
@@ -67,6 +70,7 @@ export default (
             page: infoRef.current.page + 1
         };
         run();
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -76,8 +80,9 @@ export default (
             completed: false
         };
         isEmpty(defaultList) && run();
+        // eslint-disable-next-line
     }, [deps]);
-    
+
     return {
         loading,
         loadMore,

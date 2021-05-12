@@ -43,10 +43,13 @@ const ScrollList: React.FC<IProps> = (props: IProps) => {
     useEffect(() => {
         // 监听
         // observer.current && observer.current.observe(bottomEl.current)
-        observer.current?.observe(bottomEl.current)
+        let cur = observer.current
+        // eslint-disable-next-line
+        cur?.observe(bottomEl.current)
         // 取消监听
         return () => {
-            observer.current?.unobserve(bottomEl.current)
+            // eslint-disable-next-line
+            cur?.unobserve(bottomEl.current)
         }
     }, []);
 
