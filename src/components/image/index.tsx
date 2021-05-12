@@ -6,7 +6,7 @@ const defaultProps = {
     width: 50,
     height: 50,
     radius: 8,
-    onclick: (e: React.MouseEvent) => { }
+    onClick: (e: React.MouseEvent) => {}
 };
 
 // 普通写法 先定义类型，再定义变量
@@ -17,7 +17,7 @@ export interface ImageProps extends Partial<typeof defaultProps> {
 }
 
 const Image: React.FC<ImageProps> = (props: ImageProps) => {
-    const { src, alt, width, height, radius, style = {}, onclick } = props;
+    const { src, alt, width, height, radius, style = {}, onClick } = props;
     const [status, setStatus] = useState('loading');
 
     return (
@@ -27,7 +27,7 @@ const Image: React.FC<ImageProps> = (props: ImageProps) => {
             height={height}
             radius={radius}
             style={{ ...style }}
-            onClick={onclick}
+            onClick={onClick}
         >
             <img
                 src={src}
