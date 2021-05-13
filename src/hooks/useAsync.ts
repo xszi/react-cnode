@@ -1,68 +1,68 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState, useCallback, useRef } from "react";
 
 const noop = () => {};
 const defaultOption = {
-    manual: false,
+    mannual: false,
     onSuccess: noop as SuccessHandler,
-    onError: noop as ErrorHandler
-}
+    onError: noop as ErrorHandler,
+};
 
 export interface SuccessHandler {
-    <T>(res: any): T
+    <T>(res: any): T;
 }
+
 export interface ErrorHandler {
-    (err: any): void
+    (err: any): void;
 }
 
 export interface Option extends Partial<typeof defaultOption> {
     onSuccess: SuccessHandler;
-    OnError: ErrorHandler;
+    onError: ErrorHandler;
 }
 
 export interface AsyncResult<T> {
     loading: boolean;
     run: () => void;
-    result: T | undefined
+    result: T | undefined;
 }
 
 /**
- * @param {Function} action should be a Promise
+ * @param {Function} action should return a Promise
  * @param {Object} customOption
  */
 const useAsync = <T>(
     action: () => Promise<any>,
-    // customOption: object = {}
-    customOption: any = {}
+    customOption: object = {}
 ): AsyncResult<T> => {
     let option: Option = Object.assign({}, defaultOption, customOption);
+
     const result = useRef<T>();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const run = useCallback(() => {
         setLoading(true);
         const ret: Promise<any> = action();
         if (ret.then) {
-            ret.then(res => {
+            ret.then((res) => {
                 result.current = option.onSuccess(res) || res;
             })
-            .catch(option.OnError)
-            .finally(() => setLoading(false));
+                .catch(option.onError)
+                .finally(() => setLoading(false));
         } else {
             setLoading(false);
         }
-        // eslint-disable-next-line
-    }, [action])
+    }, [action]);
 
     useEffect(() => {
-        !option.manual && run();
-        // eslint-disable-next-line
-    }, [])
+        !option.mannual && run();
+    }, []);
 
-    return { 
+    return {
         loading,
         run,
-        result: result.current
-    }
-}
+        result: result.current,
+    };
+};
 
 export default useAsync;

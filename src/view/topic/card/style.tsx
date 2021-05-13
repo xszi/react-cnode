@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import ContentLoader from 'react-content-loader';
+import React from "react";
+import styled from "styled-components";
+import ContentLoader from "react-content-loader";
 
 const CardWrapper = styled.div`
     margin-bottom: 10px;
@@ -72,4 +72,4 @@ export const createSkeleton = (num = 1, option = {}) => {
     });
 };
 
-export default CardWrapper
+export default CardWrapper;

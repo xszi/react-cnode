@@ -35,7 +35,6 @@ const Image: React.FC<ImageProps> = (props: ImageProps) => {
                 onLoad={() => setStatus('complete')}
                 onError={() => setStatus('error')}
             />
-            <img src={require('../../assets/logo.png')} alt=''></img>
         </ImageWrapper>
     )
 }

@@ -1,11 +1,12 @@
-import { useEffect, useRef, useCallback } from 'react'
-import isEmpty from '../utils/isEmpty';
-import useAsync from './useAsync';
+import isEmpty from "../utils/isEmpty";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useRef, useCallback } from "react";
+import useAsync from "./useAsync";
 
 const defaultOption = {
     initPage: 1,
-    initPageSize: 10
-}
+    initPageSize: 10,
+};
 
 interface Option extends Partial<typeof defaultOption> {
     defaultResult?: { list: Array<any> };
@@ -16,7 +17,7 @@ interface Option extends Partial<typeof defaultOption> {
 /**
  * @param {Function} action should return a Promise
  * @param {Object} option
- * @param {Array} deps dependencies
+ * @param {Array} deps dependecies
  */
 // eslint-disable-next-line
 export default (
@@ -24,36 +25,35 @@ export default (
     option: Option = defaultOption,
     deps: React.DependencyList = []
 ) => {
-    // 浅拷贝：将传过来的值覆盖默认的值
     option = Object.assign({}, defaultOption, option || {});
+
     const defaultList = option.defaultResult?.list || [];
 
     const infoRef = useRef({
         completed: false,
         page: 1,
-        list: [] as any[]
-    })
+        list: [] as any[],
+    });
 
     const actionHandler = useCallback(() => {
         return action({
             page: infoRef.current.page,
-            pageSize: option.initPageSize
-        })
-        // eslint-disable-next-line
-    }, [action])
+            pageSize: option.initPageSize,
+        });
+    }, [action]);
 
     const { loading, run } = useAsync(actionHandler, {
-        manual: true, // 是否手动触发
-        onSuccess: (res: { list?: any}) => {
+        manual: true, // 是否需要手动触发
+        onSuccess: (res: { list?: any }) => {
             const prevList = infoRef.current.list;
-            const currentPage = infoRef.current.page
+            const currentPage = infoRef.current.page;
 
             const resultList = option.formatResult
                 ? option.formatResult({
                     response: res,
-                    page: currentPage
+                    page: currentPage,
                 }).list
-                : res.list
+                : res.list;
 
             infoRef.current.list =
                 currentPage !== 1 ? prevList.concat(resultList) : resultList;
@@ -61,31 +61,29 @@ export default (
             infoRef.current.completed = option.isNoMore
                 ? option.isNoMore(res)
                 : false;
-         }
-    })
+        },
+    });
 
     const loadMore = useCallback(() => {
         infoRef.current = {
             ...infoRef.current,
-            page: infoRef.current.page + 1
+            page: infoRef.current.page + 1,
         };
         run();
-        // eslint-disable-next-line
-    }, [])
+    }, []);
 
     useEffect(() => {
         infoRef.current = {
             page: 1,
             list: defaultList || [],
-            completed: false
+            completed: false,
         };
         isEmpty(defaultList) && run();
-        // eslint-disable-next-line
-    }, [deps]);
+    }, [...deps]);
 
     return {
         loading,
         loadMore,
-        ...infoRef.current
-    }
-}
+        ...infoRef.current,
+    };
+};

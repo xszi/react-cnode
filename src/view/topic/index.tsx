@@ -1,19 +1,18 @@
-import React, { useCallback, useMemo } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import Card, { createSkeleton } from './card/card';
-import ScrollList from '../../components/scroll-list';
-import useLoadMore from '../../hooks/useLoadMore';
-import sdk from '../../service/cnode-sdk';
-import isEmpty from '../../utils/isEmpty';
-import { Topic as TopicType} from '../../types';
+import React, { useCallback, useMemo } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import Card, { createSkeleton } from "./card/card";
+import ScrollList from "../../components/scroll-list";
+import useLoadMore from "../../hooks/useLoadMore";
+import sdk from "../../service/cnode-sdk";
+import isEmpty from "../../utils/isEmpty";
+import { Topic as TopicType } from "../../types";
 
 const PAGE_SIZE = 20;
 
 const Skeleton = createSkeleton(5);
 
 const Topic = () => {
-    // 需要通过指定泛型的值来告知Typescript您正在使用哪些参数,表示 tag 是string或undefined。
-    const { tag = '' } = useParams<{tag?: string}>();
+    const { tag = "" } = useParams<{tag?: string}>();
     const history = useHistory();
 
     const getTopicsByTab = useCallback(
@@ -27,13 +26,12 @@ const Topic = () => {
         getTopicsByTab,
         {
             initPageSize: 20,
-            // confusing ???
             formatResult: ({ response: { data = [] } = {} }) => ({
-                list: data
+                list: data,
             }),
             isNoMore: ({ data }) => {
                 return data && data.length > PAGE_SIZE;
-            }
+            },
         },
         [tag]
     );
@@ -42,10 +40,10 @@ const Topic = () => {
 
     // 点击查看文章详情
     const visitArticle = (info: TopicType) => {
-        history.push({ 
+        history.push({
             pathname: `/article/${info.id}`,
-            state: info
-        })
+            state: info,
+        });
     };
 
     return (
@@ -63,16 +61,13 @@ const Topic = () => {
                                 data={item}
                                 onClick={() => visitArticle(item)}
                             />
-                        )
+                        );
                     })}
                 </ScrollList>
             )}
             {!hasList && Skeleton}
         </>
-    )
-}
+    );
+};
 
-export default Topic
-
-
-
+export default Topic;

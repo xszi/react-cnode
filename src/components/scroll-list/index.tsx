@@ -21,7 +21,6 @@ const TipWord = styled.div`
 
 const ScrollList: React.FC<IProps> = (props: IProps) => {
     const { completed, onLoad, loading } = props
-
     // 触发命中观察的回调
     const handle = useCallback(
         (entries) => {
@@ -41,15 +40,12 @@ const ScrollList: React.FC<IProps> = (props: IProps) => {
     const bottomEl: any = useRef<HTMLDivElement>();
 
     useEffect(() => {
+        let botCur = bottomEl.current, obsCur = observer.current
         // 监听
-        // observer.current && observer.current.observe(bottomEl.current)
-        let cur = observer.current
-        // eslint-disable-next-line
-        cur?.observe(bottomEl.current)
+        obsCur && obsCur.observe(botCur)
         // 取消监听
         return () => {
-            // eslint-disable-next-line
-            cur?.unobserve(bottomEl.current)
+            obsCur && obsCur.unobserve(botCur)
         }
     }, []);
 
