@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Header from '../../components/header'
 import Tabbar, { Tabber } from '../../components/tabbar'
 import Topic from '../../view/topic'
-// import Article from 'view/article'
+import Article from '../../view/article'
 // import User from 'view/user'
 // import About from 'view/about'
 // import NotFound from 'view/not-found'
@@ -32,6 +32,7 @@ const BaseLayout = () => {
         <Switch>
           <Redirect from={'/'} to={'/topic/all'} exact />
           <Route path={'/topic/:tag'} component={Topic} exact />
+          <Route path={'/article/:id'} component={Article} exact />
         </Switch>
       </Main>
     </Layout>

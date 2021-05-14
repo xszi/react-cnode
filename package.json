@@ -12,6 +12,7 @@
     "@types/react-router-dom": "^5.1.4",
     "@types/styled-components": "^5.1.0",
     "axios": "^0.21.1",
+    "github-markdown-css": "^4.0.0",
     "intersection-observer": "^0.12.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
