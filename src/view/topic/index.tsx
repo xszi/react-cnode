@@ -36,6 +36,7 @@ const Topic = () => {
         [tag]
     );
 
+    // 使用useMemo进行缓存优化，只有list改变才会重新计算hasList值，类似于vue的computed属性
     const hasList = useMemo(() => !isEmpty(list), [list]);
 
     // 点击查看文章详情

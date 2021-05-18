@@ -29,6 +29,9 @@ export default (
 
     const defaultList = option.defaultResult?.list || [];
 
+    // useRef 可以缓存上次获取的list
+    // useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。
+    // 返回的 ref 对象在组件的整个生命周期内保持不变。
     const infoRef = useRef({
         completed: false,
         page: 1,
@@ -42,6 +45,7 @@ export default (
         });
     }, [action]);
 
+    // useAsync
     const { loading, run } = useAsync(actionHandler, {
         manual: true, // 是否需要手动触发
         onSuccess: (res: { list?: any }) => {
@@ -64,6 +68,7 @@ export default (
         },
     });
 
+    // 只执行一次，依赖项空数组
     const loadMore = useCallback(() => {
         infoRef.current = {
             ...infoRef.current,

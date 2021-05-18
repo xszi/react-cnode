@@ -21,7 +21,7 @@ const TipWord = styled.div`
 
 const ScrollList: React.FC<IProps> = (props: IProps) => {
     const { completed, onLoad, loading } = props
-    // 触发命中观察的回调
+    // 触发命中观察的回调, 只有依赖项改动才会重新生成一个handle
     const handle = useCallback(
         (entries) => {
             if (completed) return;
@@ -32,13 +32,16 @@ const ScrollList: React.FC<IProps> = (props: IProps) => {
         },
         [completed, onLoad]
     );
+    
 
     const observer: React.RefObject<IntersectionObserver> = useRef(
         new IntersectionObserver(handle)
     );
-
+    
+    // 一个底部组件供监听
     const bottomEl: any = useRef<HTMLDivElement>();
 
+    // 使用class组件需要在两个生命周期实现
     useEffect(() => {
         let botCur = bottomEl.current, obsCur = observer.current
         // 监听
