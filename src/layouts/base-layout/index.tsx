@@ -5,9 +5,9 @@ import Header from '../../components/header'
 import Tabbar, { Tabber } from '../../components/tabbar'
 import Topic from '../../view/topic'
 import Article from '../../view/article'
-// import User from 'view/user'
-// import About from 'view/about'
-// import NotFound from 'view/not-found'
+import User from '../../view/user'
+import About from '../../view/about'
+import NotFound from '../../view/not-found'
 import Layout, { Fixed, Main } from './style'
 import logo from '../../assets/logo.svg'
 
@@ -33,6 +33,9 @@ const BaseLayout = () => {
           <Redirect from={'/'} to={'/topic/all'} exact />
           <Route path={'/topic/:tag'} component={Topic} exact />
           <Route path={'/article/:id'} component={Article} exact />
+          <Route path={'/user/:name'} component={User} exact />
+          <Route path={'/about'} component={About} exact />
+          <Route path={'/not-found'} component={NotFound} exact />
         </Switch>
       </Main>
     </Layout>
